@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -pthread
 SRC = main.c\
 
 SRCS = $(addprefix src/, $(SRC))
@@ -14,14 +14,11 @@ BONUS_OBJS = $(addprefix $(BONUS_OBJSDIR)/, $(notdir $(BONUS_SRCS:.c=.o)))
 
 NAME = push_swap
 BONUS_NAME = 
-LIB_DIR = ./libft
-LIB = $(LIB_DIR)/libft.a
-LIB_FLAGS = -L$(LIB_DIR) -lft
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIB)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB_FLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 $(OBJSDIR)/%.o: src/%.c | $(OBJSDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -29,10 +26,10 @@ $(OBJSDIR)/%.o: src/%.c | $(OBJSDIR)
 $(OBJSDIR):
 	mkdir -p $(OBJSDIR)
 
-bonus: $(LIB) $(BONUS_NAME)
+bonus: $(BONUS_NAME)
 
 $(BONUS_NAME): $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -o $(BONUS_NAME) $(BONUS_OBJS) $(LIB_FLAGS)
+	$(CC) $(CFLAGS) -o $(BONUS_NAME) $(BONUS_OBJS)
 
 $(BONUS_OBJSDIR)/%.o: src/%.c | $(BONUS_OBJSDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -40,28 +37,19 @@ $(BONUS_OBJSDIR)/%.o: src/%.c | $(BONUS_OBJSDIR)
 $(BONUS_OBJSDIR):
 	mkdir -p $(BONUS_OBJSDIR)
 
-$(LIB):
-	make -C $(LIB_DIR)
-
-lib_clean:
-	make -C $(LIB_DIR) clean
-
-lib_fclean:
-	make -C $(LIB_DIR) fclean
-
-clean: lib_clean
+clean:
 	rm -rf $(OBJSDIR)
 
-clean_bonus: lib_clean
+clean_bonus :
 	rm -rf $(BONUS_OBJSDIR)
 
-fclean: clean lib_fclean
+fclean: clean
 	rm -rf $(NAME)
 
-fclean_bonus: clean lib_fclean clean_bonus
+fclean_bonus: clean clean_bonus
 	rm -rf $(BONUS_NAME)
 re: fclean all
 
 re_bonus: fclean_bonus bonus
 
-.PHONY: fclean lib_clean lib_fclean clean all re bonus fclean_bonus clean_bonus re_bonus
+.PHONY: fclean clean all re bonus fclean_bonus clean_bonus re_bonus
