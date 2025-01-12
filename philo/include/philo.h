@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: abdsalah <abdsalah@std.42amman.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:54 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/11 14:08:58 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:07:22 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 
+bool check_args(int argc, char **argv);
 
 #endif
