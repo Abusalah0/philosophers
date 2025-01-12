@@ -8,12 +8,12 @@ OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
 
 BONUS_SRC = 
 
-BONUS_SRCS = $(addprefix src/, $(BONUS_SRC))
+BONUS_SRCS = $(addprefix src/bonus/, $(BONUS_SRC))
 BONUS_OBJSDIR = obj_bonus
 BONUS_OBJS = $(addprefix $(BONUS_OBJSDIR)/, $(notdir $(BONUS_SRCS:.c=.o)))
 
-NAME = push_swap
-BONUS_NAME = 
+NAME = philo
+BONUS_NAME = philo_bonus
 
 all: $(NAME)
 
