@@ -6,30 +6,21 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:01:07 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/14 17:19:28 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:39:23 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/philo.h"
 
-size_t	ft_strlen(const char *str)
+void	fill_nums(int *nums, char **argv, int argc)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	while (argc > 1)
+	{
+		*nums = ft_atoi(argv[argc - 1]);
+		nums++;
+		argc--;
+	}
 }
-
-int	ft_isdigit(int c)
-{
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
-}
-
 
 static bool	is_valid_input(char *str)
 {
@@ -50,15 +41,28 @@ static bool	is_valid_input(char *str)
 	}
 	return (1);
 }
-bool check_args(int argc, char **argv)
+
+int	*check_args(int argc, char **argv)
 {
-    if (argc < 5 || argc > 6)
-        return (0);
-    while(argc > 1)
-    {
-        if (!is_valid_input(argv[argc - 1]))
-            return (0);
-        argc--;
-    }
-    return (1);
+	int	*nums;
+
+	if (argc < 5 || argc > 6)
+	{
+		printf("Error: Wrong number of arguments\n");
+		return (NULL);
+	}
+	while (argc > 1)
+	{
+		if (!is_valid_input(argv[argc - 1]))
+		{
+			printf("Error: Invalid argument\n");
+			return (NULL);
+		}
+		argc--;
+	}
+	nums = malloc(sizeof(int) * argc);
+	if (!nums)
+		return (NULL);
+	fill_nums(nums, argv, argc);
+	return (nums);
 }
