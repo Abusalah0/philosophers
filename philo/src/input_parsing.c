@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@std.42amman.com>        +#+  +:+       +#+        */
+/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:01:07 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/12 18:07:31 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:19:28 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static bool	is_valid_input(char *str)
 bool check_args(int argc, char **argv)
 {
     if (argc < 5 || argc > 6)
-        return (1);
+        return (0);
     while(argc > 1)
     {
         if (!is_valid_input(argv[argc - 1]))
