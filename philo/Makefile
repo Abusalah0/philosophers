@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 SRC = main.c\
+		input_parsing.c\
 
 SRCS = $(addprefix src/, $(SRC))
 OBJSDIR = obj
