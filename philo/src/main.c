@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:47:38 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/14 17:38:42 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:49:50 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	main(int argc, char **argv)
 {
-	if (!check_args(argc, argv))
+	int	*nums;
+
+	nums = check_args(argc, argv);
+	if (!nums)
 		return (1);
 	return (0);
 }
