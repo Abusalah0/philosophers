@@ -1,9 +1,9 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
-SRC = main.c\
+CFLAGS = -Wall -Wextra -Werror -pthread -Iinclude -g 
+SRC = 	main.c\
 		input_parsing.c\
 		utils.c\
-
+		init.c \
 SRCS = $(addprefix src/, $(SRC))
 OBJSDIR = obj
 OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))

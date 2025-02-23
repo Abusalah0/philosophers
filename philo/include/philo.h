@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:54 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/14 17:39:27 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:45:43 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,39 @@
 # define PHILO_H
 # include <limits.h>
 # include <pthread.h>
-# include <semaphore.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/stat.h>
 # include <sys/time.h>
 # include <sys/types.h>
 # include <unistd.h>
+
+enum e_args
+{
+    NUM_OF_PHILO,
+    TIME_TO_DIE,
+    TIME_TO_EAT,
+    TIME_TO_SLEEP,
+    NUM_TO_EAT,
+};
+
+typedef struct s_philo
+{
+    int id;
+    int num_of_eat;
+    struct timeval start;
+    struct timeval last_eat;
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
+}   t_philo;
+
+typedef struct s_prog
+{
+    int *input;
+    pthread_mutex_t *forks;
+    t_philo *philos;
+    
+}   t_prog;
 
 int		*check_args(int argc, char **argv);
 int		ft_atoi(const char *str);
