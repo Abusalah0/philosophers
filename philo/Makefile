@@ -1,11 +1,13 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -Iinclude -g 
+# CFLAGS = -Wall -Wextra -Werror -pthread -Iinclude -g -fsanitize=thread
 SRC = 	main.c\
 		input_parsing.c\
 		utils.c\
 		init.c \
 		routine.c\
 		start.c \
+		
 		
 SRCS = $(addprefix src/, $(SRC))
 OBJSDIR = obj

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahramada <ahramada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 16:07:42 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/24 08:07:45 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 17:25:24 by ahramada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ int join_philos(t_prog *prog)
     {
         if (pthread_join(prog->philos[i].id, NULL))
         {
-            while (i >= 0)
-            {
-                pthread_detach(prog->philos[i].id);
-                i--;
-            }
             return (0);
         }
     }
@@ -41,11 +36,6 @@ static int create_philos(t_prog *prog)
     {
         if (pthread_create(&prog->philos[i].id, NULL, routine, &prog->philos[i]))
         {
-            while (i >= 0)
-            {
-                pthread_detach(prog->philos[i].id);
-                i--;
-            }
             return (0);
         }
         i++;

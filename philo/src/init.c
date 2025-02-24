@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahramada <ahramada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 03:19:23 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/24 08:11:53 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:22:10 by ahramada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ static int init_print(t_prog *prog)
 static int init_philos(t_prog *prog)
 {
     int i;
-
+    struct timeval start;
+    
+    gettimeofday(&start, NULL);
     prog->philos = malloc(sizeof(t_philo) * prog->input[NUM_OF_PHILO]);
     if (!prog->philos)
     {
@@ -42,16 +44,16 @@ static int init_philos(t_prog *prog)
         free(prog);
         return (0);
     }
-    i = 0;
-    while (i < prog->input[NUM_OF_PHILO])
+    i = -1;
+    while (++i < prog->input[NUM_OF_PHILO])
     {
         prog->philos[i].number = i + 1;
         prog->philos[i].num_of_eat = 0;
         prog->philos[i].left_fork = &prog->forks[i];
         prog->philos[i].right_fork = &prog->forks[(i + 1) % prog->input[NUM_OF_PHILO]];
-        gettimeofday(&prog->philos[i].start, NULL);
-        gettimeofday(&prog->philos[i].last_eat, NULL);
-        i++;    
+        prog->philos[i].start = start;
+        prog->philos[i].print = prog->print;
+        prog->philos[i].last_eat = start;
     }
     return (1);    
 }

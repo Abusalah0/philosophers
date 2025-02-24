@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahramada <ahramada@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:54 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/24 08:43:42 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 13:21:50 by ahramada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_philo
     struct timeval last_eat;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
+    pthread_mutex_t *print;
 }   t_philo;
 
 typedef struct s_prog
