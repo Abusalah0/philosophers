@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 13:53:54 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/23 15:45:43 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 08:43:42 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ enum e_args
 
 typedef struct s_philo
 {
-    int id;
+    int number;
+    pthread_t id;
     int num_of_eat;
     struct timeval start;
     struct timeval last_eat;
@@ -45,12 +46,16 @@ typedef struct s_prog
     int *input;
     pthread_mutex_t *forks;
     t_philo *philos;
-    
+    pthread_mutex_t *print;
 }   t_prog;
 
 int		*check_args(int argc, char **argv);
 int		ft_atoi(const char *str);
 size_t	ft_strlen(const char *str);
 int		ft_isdigit(int c);
+int     start(t_prog *prog);
+int     init(t_prog *prog, int argc, char **argv);
+void    free_prog(t_prog *prog);
+void    *routine();
 
 #endif

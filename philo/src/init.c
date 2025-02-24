@@ -6,11 +6,30 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 03:19:23 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/23 15:45:37 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 08:11:53 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+static int init_print(t_prog *prog)
+{
+    prog->print = malloc(sizeof(pthread_mutex_t));
+    if (!prog->print)
+    {
+        free(prog->input);
+        free(prog);
+        return (0);
+    }
+    if (pthread_mutex_init(prog->print, NULL))
+    {
+        free(prog->input);
+        free(prog->print);
+        free(prog);
+        return (0);
+    }
+    return (1);
+}
 
 static int init_philos(t_prog *prog)
 {
@@ -26,7 +45,7 @@ static int init_philos(t_prog *prog)
     i = 0;
     while (i < prog->input[NUM_OF_PHILO])
     {
-        prog->philos[i].id = i + 1;
+        prog->philos[i].number = i + 1;
         prog->philos[i].num_of_eat = 0;
         prog->philos[i].left_fork = &prog->forks[i];
         prog->philos[i].right_fork = &prog->forks[(i + 1) % prog->input[NUM_OF_PHILO]];
@@ -37,7 +56,7 @@ static int init_philos(t_prog *prog)
     return (1);    
 }
 
-static init_forks(t_prog *prog)
+static int init_forks(t_prog *prog)
 {
     int i;
 
@@ -52,7 +71,7 @@ static init_forks(t_prog *prog)
     }
     while (++i < prog->input[NUM_OF_PHILO])
     {
-        if (!pthread_mutex_init(&prog->forks[i], NULL))
+        if (pthread_mutex_init(&prog->forks[i], NULL))
         {
             while (--i >= 0)
                 pthread_mutex_destroy(&prog->forks[i]);
@@ -72,16 +91,12 @@ int    init(t_prog *prog, int argc, char **argv)
     input = check_args(argc, argv);
     if (!input)
         return (0);
-    prog = (t_prog *)malloc(sizeof(t_prog));
-    if (!prog)
-    {
-        free(input);
-        return (0);
-    }
     prog->input = input;
-    if (!init_philos(prog))
+    if (!init_print(prog))
         return (0);
     if (!init_forks(prog))
+        return (0);
+    if (!init_philos(prog))
         return (0);
     return (1);
 }

@@ -4,6 +4,9 @@ SRC = 	main.c\
 		input_parsing.c\
 		utils.c\
 		init.c \
+		routine.c\
+		start.c \
+		
 SRCS = $(addprefix src/, $(SRC))
 OBJSDIR = obj
 OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))

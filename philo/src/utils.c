@@ -6,11 +6,11 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:36:27 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/14 17:39:34 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/02/24 03:09:34 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/philo.h"
+#include "philo.h"
 
 int	ft_atoi(const char *str)
 {

@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 13:47:38 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/24 05:21:33 by abdsalah         ###   ########.fr       */
+/*   Created: 2025/02/24 03:06:18 by abdsalah          #+#    #+#             */
+/*   Updated: 2025/02/24 03:47:56 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void    free_prog(t_prog *prog)
 {
-	t_prog *prog;
-	
-	prog = malloc(sizeof(t_prog));
-	if (!prog)
-		return (1);
-	if (!init(prog, argc, argv))
-		return (1);
-	if (!start(prog))
-		return (1);
-	return (0);
+    if (!prog)
+        return ;
+    if (prog->philos)
+    {
+        free(prog->philos);
+        prog->philos = NULL;
+    }
+    if (prog->forks)
+    {
+        free(prog->forks);
+        prog->forks = NULL;
+    }
+    if (prog->input)
+    {
+        free(prog->input);
+        prog->input = NULL;
+    }
 }
