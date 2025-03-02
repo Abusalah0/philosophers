@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   get_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/24 03:06:18 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/01 16:59:36 by abdsalah         ###   ########.fr       */
+/*   Created: 2025/03/01 15:19:21 by abdsalah          #+#    #+#             */
+/*   Updated: 2025/03/01 17:12:27 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void free_prog(t_prog *prog)
+int get_time(struct timeval start)
 {
-    int i;
+    struct timeval now;
 
-    i = -1;
-    while (++i < prog->input[NUM_OF_PHILO])
-    {
-        pthread_mutex_destroy(&prog->philos[i].full);
-    }
-    free(prog->forks);
-    free(prog->philos);
-    free(prog->input);
-    free(prog);
+    gettimeofday(&now, NULL);
+    if (start.tv_sec == 0 && start.tv_usec == 0)
+        return ((now.tv_sec * 1000 + now.tv_usec / 1000));
+    return ((now.tv_sec * 1000 + now.tv_usec / 1000) - (start.tv_sec * 1000 + start.tv_usec / 1000));
 }
-
