@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:01:07 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/01/14 17:52:12 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/05 13:37:43 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	fill_nums(int *nums, char **argv, int argc)
 {
+	if (argc == 5)
+	{
+		nums[NUM_TO_EAT] = -1;
+	}
 	argc--;
 	while (argc > 0)
 	{

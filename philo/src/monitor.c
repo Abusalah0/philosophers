@@ -1,53 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/05 16:25:37 by abdsalah          #+#    #+#             */
+/*   Updated: 2025/03/05 16:38:36 by abdsalah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int check_full(t_prog *prog)
 {
     int i = 0;
+    int all_full = 1;
+    
+    if (prog->input[NUM_TO_EAT] == -1)
+        return (0);
+        
     while (i < prog->input[NUM_OF_PHILO])
     {
-        pthread_mutex_lock(&prog->philos[i].full);
-        if (prog->philos[i].num_of_eat < prog->input[NUM_TO_EAT])
+        pthread_mutex_lock(&prog->philos[i].meal_mutex);
+        if (prog->philos[i].meal_count < prog->input[NUM_TO_EAT])
         {
-            pthread_mutex_unlock(&prog->philos[i].full);
-            return (0);
+            all_full = 0;
+            pthread_mutex_unlock(&prog->philos[i].meal_mutex);
+            break;
         }
-        pthread_mutex_unlock(&prog->philos[i].full);
+        pthread_mutex_unlock(&prog->philos[i].meal_mutex);
         i++;
     }
-    return (1);
+    return (all_full);
 }
 
-static int check_death(t_prog *prog)
+int check_death(t_prog *prog)
 {
     int i = 0;
     long time_since_last_eat;
-
+    struct timeval current_time;
+    struct timeval last_eat_time;
+    
+    gettimeofday(&current_time, NULL);
+    
     while (i < prog->input[NUM_OF_PHILO])
     {
-        pthread_mutex_lock(&prog->print);
-        time_since_last_eat = get_time(prog->philos[i].last_eat); // Get time since last eat
-
-        // Check for death (starvation)
-        if (prog->philos[i].alive && time_since_last_eat > prog->input[TIME_TO_DIE])
+        // First check if simulation already stopped
+        pthread_mutex_lock(&prog->stop_mutex);
+        if (prog->stop)
         {
-            printf("%d %d died\n", get_time(prog->philos[i].start), prog->philos[i].number);
-            prog->philos[i].alive = 0;
-            prog->stop = 1;
-            pthread_mutex_unlock(&prog->print);
+            pthread_mutex_unlock(&prog->stop_mutex);
             return (1);
         }
+        pthread_mutex_unlock(&prog->stop_mutex);
 
-        // Check for starvation
-        if (prog->philos[i].alive && time_since_last_eat > prog->input[TIME_TO_DIE])
+        // Check philosopher's last meal time
+        pthread_mutex_lock(&prog->philos[i].last_eat_mutex);
+        last_eat_time = prog->philos[i].last_eat;
+        pthread_mutex_unlock(&prog->philos[i].last_eat_mutex);
+        
+        time_since_last_eat = diff(last_eat_time, current_time);
+        
+        if (time_since_last_eat > prog->input[TIME_TO_DIE])
         {
-            printf("%d %d is starving!\n", get_time(prog->philos[i].start), prog->philos[i].number);
-            prog->philos[i].alive = 0;
-            prog->stop = 1;
+            // Lock print mutex AND stop mutex together
+            pthread_mutex_lock(&prog->stop_mutex);
+            pthread_mutex_lock(&prog->print);
+            
+            // Only print death message if stop is still 0
+            if (!prog->stop)
+            {
+                prog->stop = 1;  // Set stop flag first
+                printf("%d %d died\n", get_time(prog->philos[i].start), 
+                       prog->philos[i].number);
+                pthread_mutex_unlock(&prog->print);
+                pthread_mutex_unlock(&prog->stop_mutex);
+                return (1);
+            }
+            
             pthread_mutex_unlock(&prog->print);
+            pthread_mutex_unlock(&prog->stop_mutex);
             return (1);
         }
-
-        pthread_mutex_unlock(&prog->print);
         i++;
     }
     return (0);
@@ -56,27 +91,34 @@ static int check_death(t_prog *prog)
 void *monitor(void *ptr)
 {
     t_prog *prog = (t_prog *)ptr;
-
-    while (1)
+    int stop_flag = 0;
+    
+    // Allow philosophers time to start
+    accurate_sleep(1);
+    while (!stop_flag)
     {
-        // Check if all philosophers are full
-        if (check_full(prog))
-        {
-            pthread_mutex_lock(&prog->print);
-            printf("All philosophers are full\n");
-            pthread_mutex_unlock(&prog->print);
-            prog->stop = 1;
-            return (NULL);
-        }
-        
-        // Check for philosopher death or starvation
+        // Check for death first
         if (check_death(prog))
+            break;
+        // Only then check if all philosophers are full
+        if (prog->input[NUM_TO_EAT] != -1 && check_full(prog))
         {
-            prog->stop = 1;
-            return (NULL);
+            pthread_mutex_lock(&prog->stop_mutex);
+            pthread_mutex_lock(&prog->print);
+            if (!prog->stop) // Only print if we haven't stopped yet
+            {
+                prog->stop = 1;
+                printf("All philosophers have eaten enough times\n");
+            }
+            pthread_mutex_unlock(&prog->print);
+            pthread_mutex_unlock(&prog->stop_mutex);
+            break;
         }
-
-        usleep(1000); // Sleep for 1 ms to avoid busy-waiting
+        // Check stop flag
+        pthread_mutex_lock(&prog->stop_mutex);
+        stop_flag = prog->stop;
+        pthread_mutex_unlock(&prog->stop_mutex);
+        usleep(500);
     }
     return (NULL);
 }

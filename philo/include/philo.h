@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 13:53:54 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/01 17:06:18 by abdsalah         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -21,6 +9,7 @@
 # include <sys/time.h>
 # include <sys/types.h>
 # include <unistd.h>
+# include <string.h>
 
 enum e_args
 {
@@ -33,40 +22,50 @@ enum e_args
 
 typedef struct s_philo
 {
-    int number;
-    int *input;
-    int alive;
-    pthread_t id;
-    int num_of_eat;
-    struct timeval start;
-    struct timeval last_eat;
+    int             number;
+    pthread_t       id;
+    int             meal_count;
+    struct timeval  start;
+    struct timeval  last_eat;
+    pthread_mutex_t last_eat_mutex;
+    int             *input;
+    int             *shared_stop;
+    pthread_mutex_t meal_mutex;
+    pthread_mutex_t *stop_mutex;
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
-    pthread_mutex_t *print;      // pointer to shared print mutex (in t_prog)
-    pthread_mutex_t full;        // per-philosopher mutex for protecting num_of_eat
+    pthread_mutex_t *print;
 }   t_philo;
 
 typedef struct s_prog
 {
-    int *input;
+    int             stop;
+    struct timeval  start_time;
+    int             *input;
+    t_philo         *philos;
     pthread_mutex_t *forks;
-    t_philo *philos;
     pthread_mutex_t print;
-    int stop;       // shared print mutex (direct member)
+    pthread_mutex_t stop_mutex;
 }   t_prog;
 
-/* Function Prototypes */
-int		*check_args(int argc, char **argv);
-int		ft_atoi(const char *str);
-size_t	ft_strlen(const char *str);
-int		ft_isdigit(int c);
+int     *check_args(int argc, char **argv);
+int     ft_atoi(const char *str);
+size_t  ft_strlen(const char *str);
+int     ft_isdigit(int c);
 int     start(t_prog *prog);
 int     init(t_prog *prog, int argc, char **argv);
-void    free_prog(t_prog *prog);
+void    free_prog(t_prog *prog, bool forks, bool philos, bool mutexes);
 void    *routine(void *philo);
-void    eat(t_philo *philo);
+int     eat(t_philo *philo);
 void    sleep_philo(t_philo *philo, int time);
 int     get_time(struct timeval start);
-void *monitor(void *ptr);
+void    *monitor(void *ptr);
+int     should_stop(t_philo *philo);
+void    print_with_lock(t_philo *philo, char *status);
+long    diff(struct timeval start, struct timeval end);
+void    accurate_sleep(long ms);
+void    free_philos(t_prog *prog);
+void    free_forks(t_prog *prog);
+void    free_mutexes(t_prog *prog);
 
 #endif

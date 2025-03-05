@@ -7,22 +7,17 @@ SRC = 	main.c \
 		init.c \
 		routine.c \
 		start.c \
-		get_time.c \
+		time_utils.c \
 		eat.c \
 		monitor.c \
+		free.c \
+		sleep.c \
 		
 SRCS = $(addprefix src/, $(SRC))
 OBJSDIR = obj
 OBJS = $(addprefix $(OBJSDIR)/, $(notdir $(SRCS:.c=.o)))
 
-BONUS_SRC = 
-
-BONUS_SRCS = $(addprefix src/bonus/, $(BONUS_SRC))
-BONUS_OBJSDIR = obj_bonus
-BONUS_OBJS = $(addprefix $(BONUS_OBJSDIR)/, $(notdir $(BONUS_SRCS:.c=.o)))
-
 NAME = philo
-BONUS_NAME = philo_bonus
 
 all: $(NAME)
 
@@ -35,30 +30,12 @@ $(OBJSDIR)/%.o: src/%.c | $(OBJSDIR)
 $(OBJSDIR):
 	mkdir -p $(OBJSDIR)
 
-bonus: $(BONUS_NAME)
-
-$(BONUS_NAME): $(BONUS_OBJS)
-	$(CC) $(CFLAGS) -o $(BONUS_NAME) $(BONUS_OBJS)
-
-$(BONUS_OBJSDIR)/%.o: src/%.c | $(BONUS_OBJSDIR)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(BONUS_OBJSDIR):
-	mkdir -p $(BONUS_OBJSDIR)
-
 clean:
 	rm -rf $(OBJSDIR)
-
-clean_bonus :
-	rm -rf $(BONUS_OBJSDIR)
 
 fclean: clean
 	rm -rf $(NAME)
 
-fclean_bonus: clean clean_bonus
-	rm -rf $(BONUS_NAME)
 re: fclean all
 
-re_bonus: fclean_bonus bonus
-
-.PHONY: fclean clean all re bonus fclean_bonus clean_bonus re_bonus
+.PHONY: fclean clean all re bonus

@@ -6,11 +6,24 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:36:27 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/02/24 03:09:34 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/05 16:34:07 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void print_with_lock(t_philo *philo, char *status)
+{
+    pthread_mutex_lock(philo->stop_mutex);
+    // Only print if simulation is still running
+    if (*(philo->shared_stop) == 0)
+    {
+        pthread_mutex_lock(philo->print);
+        printf("%d %d %s\n", get_time(philo->start), philo->number, status);
+        pthread_mutex_unlock(philo->print);
+    }
+    pthread_mutex_unlock(philo->stop_mutex);
+}
 
 int	ft_atoi(const char *str)
 {
