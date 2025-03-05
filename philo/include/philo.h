@@ -67,5 +67,6 @@ void    accurate_sleep(long ms);
 void    free_philos(t_prog *prog);
 void    free_forks(t_prog *prog);
 void    free_mutexes(t_prog *prog);
+long    get_timestamp_ms();
 
 #endif

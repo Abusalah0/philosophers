@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:09:15 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 16:37:43 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/05 21:25:20 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int init_mutexes(t_prog *prog)
 {
     if (pthread_mutex_init(&prog->print, NULL) != 0)
         return (0);
-        
     if (pthread_mutex_init(&prog->stop_mutex, NULL) != 0)
     {
         pthread_mutex_destroy(&prog->print);

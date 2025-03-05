@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:31:53 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 16:33:52 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/05 20:56:18 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,11 @@
 
 void accurate_sleep(long ms)
 {
-    struct timeval start;
-    struct timeval current;
-    long elapsed;
+    long start_time = get_timestamp_ms();
+    long end_time = start_time + ms;
     
-    gettimeofday(&start, NULL);
-    
-    while (1)
-    {
-        usleep(500);
-        gettimeofday(&current, NULL);
-        elapsed = diff(start, current);
-        if (elapsed >= ms)
-            break;
-    }
+    while (get_timestamp_ms() < end_time)
+        usleep(500); // Sleep in small increments to not oversleep
 }
 
 void sleep_philo(t_philo *philo, int time)
