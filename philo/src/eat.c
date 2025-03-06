@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:59:06 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:53:48 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:59:49 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	eat(t_philo *philo)
 	print_with_safety(philo, "is eating");
 	while (!judgement_day(philo) && (get_timestamp_in_ms()
 			- eating_start < philo->input[TIME_TO_EAT]))
-			usleep(1000);
+		usleep(1000);
 	release_forks(philo);
 	if (!judgement_day(philo))
 	{

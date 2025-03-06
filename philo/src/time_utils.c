@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:32:16 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:49:47 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:59:58 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ long	get_timestamp_in_ms(void)
 int	get_time(struct timeval start)
 {
 	return ((int)(get_timestamp_in_ms() - ((start.tv_sec * 1000)
-				+ (start.tv_usec / 1000))));
+			+ (start.tv_usec / 1000))));
 }
