@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:09:15 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:30:14 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:14:14 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	assign_philos(t_prog *prog, struct timeval start, int i, int *input)
 	prog->philos[i].last_eat = start;
 	prog->philos[i].stop_mutex = &prog->stop_mutex;
 	prog->philos[i].shared_stop = &prog->stop;
-	return (1);
+	return (0);
 }
 
 static int	init_mutexes(t_prog *prog)
@@ -65,8 +65,7 @@ static int	init_philos(t_prog *prog)
 	{
 		if (!assign_philos(prog, start, i, prog->input))
 		{
-			// free(prog->philos);
-			free_prog(prog, 0, 0, 0);
+			free_prog(prog, 1, 1, 1);
 			return (0);
 		}
 	}
@@ -118,12 +117,6 @@ int	init(t_prog *prog, int argc, char **argv)
 		return (0);
 	}
 	if (!init_philos(prog))
-	{
-		// free(input);
-		// free(prog->forks);
-		// pthread_mutex_destroy(&prog->print);
-		// pthread_mutex_destroy(&prog->stop_mutex);
 		return (0);
-	}
 	return (1);
 }

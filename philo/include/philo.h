@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:33:11 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:33:12 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:16:56 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,9 @@ void				sleep_philo(t_philo *philo, int time);
 int					get_time(struct timeval start);
 void				*monitor(void *ptr);
 int					should_stop(t_philo *philo);
-void				print_with_lock(t_philo *philo, char *status);
-long				diff(struct timeval start, struct timeval end);
+void				print_with_safety(t_philo *philo, char *status);
 void				accurate_sleep(long ms);
 void				free_philos(t_prog *prog);
-void				free_forks(t_prog *prog);
-void				free_mutexes(t_prog *prog);
 long				get_timestamp_ms(void);
 
 #endif

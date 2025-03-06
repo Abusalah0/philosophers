@@ -6,11 +6,22 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:20:59 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:30:06 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 17:47:31 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	announce_full(t_prog *prog)
+{
+	if (!prog->stop)
+	{
+		pthread_mutex_lock(&prog->print);
+		printf("All philosophers have eaten enough times\n");
+		pthread_mutex_unlock(&prog->print);
+		prog->stop = 1;
+	}
+}
 
 int	check_full(t_prog *prog)
 {
@@ -36,6 +47,29 @@ int	check_full(t_prog *prog)
 	return (all_full);
 }
 
+static int	is_starved(t_prog *prog, int i, long current_time_ms,
+		long last_eat_time_ms)
+{
+	if ((current_time_ms - last_eat_time_ms) > prog->input[TIME_TO_DIE])
+	{
+		pthread_mutex_lock(&prog->stop_mutex);
+		if (!prog->stop)
+		{
+			pthread_mutex_lock(&prog->print);
+			printf("%d %d died\n", get_time(prog->philos[i].start),
+				prog->philos[i].number);
+			pthread_mutex_unlock(&prog->print);
+			prog->stop = 1;
+			pthread_mutex_unlock(&prog->stop_mutex);
+			return (1);
+		}
+		else
+			pthread_mutex_unlock(&prog->stop_mutex);
+		return (1);
+	}
+	return (0);
+}
+
 int	check_death(t_prog *prog)
 {
 	int				i;
@@ -52,23 +86,8 @@ int	check_death(t_prog *prog)
 		pthread_mutex_unlock(&prog->philos[i].last_eat_mutex);
 		last_eat_time_ms = (last_eat_time.tv_sec * 1000)
 			+ (last_eat_time.tv_usec / 1000);
-		if ((current_time_ms - last_eat_time_ms) > prog->input[TIME_TO_DIE])
-		{
-			pthread_mutex_lock(&prog->stop_mutex);
-			if (!prog->stop)
-			{
-				pthread_mutex_lock(&prog->print);
-				printf("%d %d died\n", get_time(prog->philos[i].start),
-					prog->philos[i].number);
-				pthread_mutex_unlock(&prog->print);
-				prog->stop = 1;
-				pthread_mutex_unlock(&prog->stop_mutex);
-				return (1);
-			}
-			else
-				pthread_mutex_unlock(&prog->stop_mutex);
+		if (is_starved(prog, i, current_time_ms, last_eat_time_ms))
 			return (1);
-		}
 		i++;
 	}
 	return (0);
@@ -89,13 +108,7 @@ void	*monitor(void *ptr)
 		if (check_full(prog))
 		{
 			pthread_mutex_lock(&prog->stop_mutex);
-			if (!prog->stop)
-			{
-				pthread_mutex_lock(&prog->print);
-				printf("All philosophers have eaten enough times\n");
-				pthread_mutex_unlock(&prog->print);
-				prog->stop = 1;
-			}
+			announce_full(prog);
 			pthread_mutex_unlock(&prog->stop_mutex);
 			break ;
 		}

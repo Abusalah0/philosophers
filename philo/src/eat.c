@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:59:06 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:30:19 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:15:45 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	take_fork(pthread_mutex_t *fork, t_philo *philo)
 		pthread_mutex_unlock(fork);
 		return (0);
 	}
-	print_with_lock(philo, "has taken a fork");
+	print_with_safety(philo, "has taken a fork");
 	return (1);
 }
 
@@ -68,11 +68,10 @@ int	eat(t_philo *philo)
 	if (!pick_up_forks(philo))
 		return (0);
 	eating_start = get_timestamp_ms();
-	// Update last eat time IMMEDIATELY after getting forks
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	gettimeofday(&philo->last_eat, NULL);
 	pthread_mutex_unlock(&philo->last_eat_mutex);
-	print_with_lock(philo, "is eating");
+	print_with_safety(philo, "is eating");
 	while (!should_stop(philo) && (get_timestamp_ms()
 			- eating_start < philo->input[TIME_TO_EAT]))
 		usleep(1000);

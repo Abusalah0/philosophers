@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:31:53 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:31:29 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:36:30 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	sleep_philo(t_philo *philo, int time)
 
 	if (!should_stop(philo))
 	{
-		print_with_lock(philo, "is sleeping");
+		print_with_safety(philo, "is sleeping");
 		elapsed = 0;
 		while (elapsed < time && !should_stop(philo))
 		{

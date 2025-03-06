@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 15:24:50 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/05 23:30:16 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:15:24 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ void	free_forks(t_prog *prog)
 	free(prog->forks);
 }
 
-void	free_philos(t_prog *prog)
-{
-	int	i;
-
-	i = -1;
-	while (++i < prog->input[NUM_OF_PHILO])
-	{
-		pthread_mutex_destroy(&prog->philos[i].meal_mutex);
-		pthread_mutex_destroy(&prog->philos[i].last_eat_mutex);
-	}
-	free(prog->philos);
-}
-
 void	free_prog(t_prog *prog, bool forks, bool philos, bool mutexes)
 {
 	if (!prog)
@@ -48,7 +35,7 @@ void	free_prog(t_prog *prog, bool forks, bool philos, bool mutexes)
 	if (philos)
 	{
 		if (prog->philos)
-			free_philos(prog);
+			free(prog->philos);
 	}
 	if (forks)
 	{
