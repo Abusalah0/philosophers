@@ -6,13 +6,24 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:26:02 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:33:52 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:44:48 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	should_stop(t_philo *philo)
+static bool	check_full(t_philo *philo)
+{
+	bool	full;
+
+	pthread_mutex_lock(&philo->meal_mutex);
+	full = philo->input[NUM_TO_EAT] != -1
+		&& philo->meal_count >= philo->input[NUM_TO_EAT];
+	pthread_mutex_unlock(&philo->meal_mutex);
+	return (full);
+}
+
+int	judgement_day(t_philo *philo)
 {
 	int	stop;
 
@@ -24,7 +35,7 @@ int	should_stop(t_philo *philo)
 
 void	think(t_philo *philo)
 {
-	if (!should_stop(philo))
+	if (!judgement_day(philo))
 		print_with_safety(philo, "is thinking");
 }
 
@@ -45,19 +56,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (!should_stop(philo))
+	while (!judgement_day(philo))
 	{
-		pthread_mutex_lock(&philo->meal_mutex);
-		if (philo->input[NUM_TO_EAT] != -1
-			&& philo->meal_count >= philo->input[NUM_TO_EAT])
-		{
-			pthread_mutex_unlock(&philo->meal_mutex);
+		if (check_full(philo))
 			break ;
-		}
 		pthread_mutex_unlock(&philo->meal_mutex);
 		if (!eat(philo))
 			break ;
+		if (check_full(philo))
+			break ;
 		sleep_philo(philo, philo->input[TIME_TO_SLEEP]);
+		pthread_mutex_unlock(&philo->meal_mutex);
 		think(philo);
 	}
 	return (NULL);

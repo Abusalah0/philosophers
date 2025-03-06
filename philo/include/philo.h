@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:33:11 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:33:52 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:29:57 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int					eat(t_philo *philo);
 void				sleep_philo(t_philo *philo, int time);
 int					get_time(struct timeval start);
 void				*monitor(void *ptr);
-int					should_stop(t_philo *philo);
+int					judgement_day(t_philo *philo);
 void				print_with_safety(t_philo *philo, char *status);
 void				accurate_sleep(long ms);
 void				free_philos(t_prog *prog);

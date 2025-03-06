@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:59:06 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:15:45 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:35:34 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static void	release_forks(t_philo *philo)
 
 static int	take_fork(pthread_mutex_t *fork, t_philo *philo)
 {
-	if (should_stop(philo))
+	if (judgement_day(philo))
 		return (0);
 	pthread_mutex_lock(fork);
-	if (should_stop(philo))
+	if (judgement_day(philo))
 	{
 		pthread_mutex_unlock(fork);
 		return (0);
@@ -63,7 +63,7 @@ int	eat(t_philo *philo)
 
 	if (philo->number % 2 == 0)
 		accurate_sleep(1);
-	if (should_stop(philo))
+	if (judgement_day(philo))
 		return (0);
 	if (!pick_up_forks(philo))
 		return (0);
@@ -72,15 +72,15 @@ int	eat(t_philo *philo)
 	gettimeofday(&philo->last_eat, NULL);
 	pthread_mutex_unlock(&philo->last_eat_mutex);
 	print_with_safety(philo, "is eating");
-	while (!should_stop(philo) && (get_timestamp_ms()
+	while (!judgement_day(philo) && (get_timestamp_ms()
 			- eating_start < philo->input[TIME_TO_EAT]))
 		usleep(1000);
 	release_forks(philo);
-	if (!should_stop(philo))
+	if (!judgement_day(philo))
 	{
 		pthread_mutex_lock(&philo->meal_mutex);
 		philo->meal_count++;
 		pthread_mutex_unlock(&philo->meal_mutex);
 	}
-	return (!should_stop(philo));
+	return (!judgement_day(philo));
 }
