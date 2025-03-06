@@ -6,13 +6,13 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:32:16 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:17:11 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:49:47 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	get_timestamp_ms(void)
+long	get_timestamp_in_ms(void)
 {
 	struct timeval	tv;
 
@@ -22,6 +22,6 @@ long	get_timestamp_ms(void)
 
 int	get_time(struct timeval start)
 {
-	return ((int)(get_timestamp_ms() - ((start.tv_sec * 1000) + (start.tv_usec
-				/ 1000))));
+	return ((int)(get_timestamp_in_ms() - ((start.tv_sec * 1000)
+				+ (start.tv_usec / 1000))));
 }

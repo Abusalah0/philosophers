@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:59:06 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:35:34 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:53:48 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ static void	release_forks(t_philo *philo)
 static int	take_fork(pthread_mutex_t *fork, t_philo *philo)
 {
 	if (judgement_day(philo))
+	{
 		return (0);
+	}
 	pthread_mutex_lock(fork);
 	if (judgement_day(philo))
 	{
@@ -37,7 +39,9 @@ static int	pick_up_forks(t_philo *philo)
 	if (philo->number % 2 == 0)
 	{
 		if (!take_fork(philo->left_fork, philo))
+		{
 			return (0);
+		}
 		if (!take_fork(philo->right_fork, philo))
 		{
 			pthread_mutex_unlock(philo->left_fork);
@@ -47,7 +51,9 @@ static int	pick_up_forks(t_philo *philo)
 	else
 	{
 		if (!take_fork(philo->right_fork, philo))
+		{
 			return (0);
+		}
 		if (!take_fork(philo->left_fork, philo))
 		{
 			pthread_mutex_unlock(philo->right_fork);
@@ -62,19 +68,19 @@ int	eat(t_philo *philo)
 	long	eating_start;
 
 	if (philo->number % 2 == 0)
-		accurate_sleep(1);
+		sleep_and_check(1);
 	if (judgement_day(philo))
 		return (0);
 	if (!pick_up_forks(philo))
 		return (0);
-	eating_start = get_timestamp_ms();
+	eating_start = get_timestamp_in_ms();
 	pthread_mutex_lock(&philo->last_eat_mutex);
 	gettimeofday(&philo->last_eat, NULL);
 	pthread_mutex_unlock(&philo->last_eat_mutex);
 	print_with_safety(philo, "is eating");
-	while (!judgement_day(philo) && (get_timestamp_ms()
+	while (!judgement_day(philo) && (get_timestamp_in_ms()
 			- eating_start < philo->input[TIME_TO_EAT]))
-		usleep(1000);
+			usleep(1000);
 	release_forks(philo);
 	if (!judgement_day(philo))
 	{

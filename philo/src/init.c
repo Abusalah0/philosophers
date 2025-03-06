@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:09:15 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:35:34 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:54:15 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ static int	assign_philos(t_prog *prog, struct timeval start, int i, int *input)
 static int	init_mutexes(t_prog *prog)
 {
 	if (pthread_mutex_init(&prog->print, NULL) != 0)
+	{
 		return (0);
+	}
 	if (pthread_mutex_init(&prog->stop_mutex, NULL) != 0)
 	{
 		pthread_mutex_destroy(&prog->print);
@@ -85,7 +87,9 @@ static int	init_forks(t_prog *prog)
 		if (pthread_mutex_init(&prog->forks[i], NULL) != 0)
 		{
 			while (--i >= 0)
+			{
 				pthread_mutex_destroy(&prog->forks[i]);
+			}
 			free(prog->forks);
 			return (0);
 		}

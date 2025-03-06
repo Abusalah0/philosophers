@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:26:02 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:44:48 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:51:29 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*lonely_routine(void *arg)
 	philo = (t_philo *)arg;
 	pthread_mutex_lock(philo->left_fork);
 	print_with_safety(philo, "has taken a fork");
-	accurate_sleep(philo->input[TIME_TO_DIE] + 10);
+	sleep_and_check(philo->input[TIME_TO_DIE] + 10);
 	pthread_mutex_unlock(philo->left_fork);
 	return (NULL);
 }
@@ -59,12 +59,18 @@ void	*routine(void *arg)
 	while (!judgement_day(philo))
 	{
 		if (check_full(philo))
+		{
 			break ;
+		}
 		pthread_mutex_unlock(&philo->meal_mutex);
 		if (!eat(philo))
+		{
 			break ;
+		}
 		if (check_full(philo))
+		{
 			break ;
+		}
 		sleep_philo(philo, philo->input[TIME_TO_SLEEP]);
 		pthread_mutex_unlock(&philo->meal_mutex);
 		think(philo);

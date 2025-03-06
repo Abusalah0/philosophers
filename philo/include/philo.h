@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:33:11 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:29:57 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:48:46 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int					get_time(struct timeval start);
 void				*monitor(void *ptr);
 int					judgement_day(t_philo *philo);
 void				print_with_safety(t_philo *philo, char *status);
-void				accurate_sleep(long ms);
+void				sleep_and_check(long ms);
 void				free_philos(t_prog *prog);
-long				get_timestamp_ms(void);
+long				get_timestamp_in_ms(void);
 void				*lonely_routine(void *ptr);
 
 #endif

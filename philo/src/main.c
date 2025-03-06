@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 13:03:53 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:15:06 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 21:54:25 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	main(int argc, char **argv)
 
 	prog = malloc(sizeof(t_prog));
 	if (!prog)
+	{
 		return (1);
+	}
 	memset(prog, 0, sizeof(t_prog));
 	if (!init(prog, argc, argv))
 	{
