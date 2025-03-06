@@ -6,13 +6,13 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:59:06 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 21:59:49 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 22:03:58 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	release_forks(t_philo *philo)
+static void	putdown_forks(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
@@ -81,7 +81,7 @@ int	eat(t_philo *philo)
 	while (!judgement_day(philo) && (get_timestamp_in_ms()
 			- eating_start < philo->input[TIME_TO_EAT]))
 		usleep(1000);
-	release_forks(philo);
+	putdown_forks(philo);
 	if (!judgement_day(philo))
 	{
 		pthread_mutex_lock(&philo->meal_mutex);
