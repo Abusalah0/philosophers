@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 17:36:27 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 16:38:14 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:33:52 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_with_safety(t_philo *philo, char *status)
 {
 	pthread_mutex_lock(philo->stop_mutex);
-	if (*(philo->shared_stop) == 0)
+	if (*(philo->stop) == 0)
 	{
 		pthread_mutex_lock(philo->print);
 		printf("%d %d %s\n", get_time(philo->start), philo->number, status);

@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:31:53 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 16:36:30 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:28:43 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	accurate_sleep(long ms)
 {
-	long	start_time;
-	long	end_time;
+	long	start;
+	long	end;
 
-	start_time = get_timestamp_ms();
-	end_time = start_time + ms;
-	while (get_timestamp_ms() < end_time)
+	start = get_timestamp_ms();
+	end = start + ms;
+	while (get_timestamp_ms() < end)
 		usleep(500);
 }
 

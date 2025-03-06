@@ -6,21 +6,19 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:33:11 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:16:56 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:33:52 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <limits.h>
 # include <pthread.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
-# include <sys/types.h>
 # include <unistd.h>
 
 enum				e_args
@@ -41,7 +39,7 @@ typedef struct s_philo
 	struct timeval	last_eat;
 	pthread_mutex_t	last_eat_mutex;
 	int				*input;
-	int				*shared_stop;
+	int				*stop;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	*stop_mutex;
 	pthread_mutex_t	*left_fork;
@@ -78,5 +76,6 @@ void				print_with_safety(t_philo *philo, char *status);
 void				accurate_sleep(long ms);
 void				free_philos(t_prog *prog);
 long				get_timestamp_ms(void);
+void				*lonely_routine(void *ptr);
 
 #endif

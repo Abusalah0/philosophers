@@ -6,23 +6,11 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 15:38:14 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 18:14:05 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:32:16 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	*lonely_routine(void *ptr)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)ptr;
-	pthread_mutex_lock(philo->left_fork);
-	print_with_safety(philo, "has taken a fork");
-	accurate_sleep(philo->input[TIME_TO_DIE] + 10);
-	pthread_mutex_unlock(philo->left_fork);
-	return (NULL);
-}
 
 int	create_philos(t_prog *prog)
 {

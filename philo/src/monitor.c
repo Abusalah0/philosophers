@@ -6,22 +6,22 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 23:20:59 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/06 17:47:31 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:35:00 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	announce_full(t_prog *prog)
-{
-	if (!prog->stop)
-	{
-		pthread_mutex_lock(&prog->print);
-		printf("All philosophers have eaten enough times\n");
-		pthread_mutex_unlock(&prog->print);
-		prog->stop = 1;
-	}
-}
+// static void	announce_full(t_prog *prog)
+// {
+// 	if (!prog->stop)
+// 	{
+// 		pthread_mutex_lock(&prog->print);
+// 		printf("All philosophers have eaten enough times\n");
+// 		pthread_mutex_unlock(&prog->print);
+// 		prog->stop = 1;
+// 	}
+// }
 
 int	check_full(t_prog *prog)
 {
@@ -108,7 +108,8 @@ void	*monitor(void *ptr)
 		if (check_full(prog))
 		{
 			pthread_mutex_lock(&prog->stop_mutex);
-			announce_full(prog);
+			// announce_full(prog);
+			prog->stop = 1;
 			pthread_mutex_unlock(&prog->stop_mutex);
 			break ;
 		}
