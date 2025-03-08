@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:26:02 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/08 13:14:33 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/08 13:16:05 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static bool	check_full(t_philo *philo)
 	bool	full;
 
 	if (philo->input[NUM_TO_EAT] == -1)
+	{
 		return (false);
+	}
 	pthread_mutex_lock(&philo->meal_mutex);
 	full = philo->meal_count >= philo->input[NUM_TO_EAT];
 	pthread_mutex_unlock(&philo->meal_mutex);
