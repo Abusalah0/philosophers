@@ -6,7 +6,7 @@
 /*   By: abdsalah <abdsalah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:26:02 by abdsalah          #+#    #+#             */
-/*   Updated: 2025/03/08 13:16:05 by abdsalah         ###   ########.fr       */
+/*   Updated: 2025/03/12 17:07:17 by abdsalah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	*routine(void *arg)
 		{
 			break ;
 		}
-		pthread_mutex_unlock(&philo->meal_mutex);
 		if (!eat(philo))
 		{
 			break ;
@@ -75,7 +74,6 @@ void	*routine(void *arg)
 			break ;
 		}
 		sleep_philo(philo, philo->input[TIME_TO_SLEEP]);
-		pthread_mutex_unlock(&philo->meal_mutex);
 		think(philo);
 	}
 	return (NULL);
